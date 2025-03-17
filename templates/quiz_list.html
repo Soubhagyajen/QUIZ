@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="hero-section"> 
+    <div class="container text-center">
+        <h1 class="display-4 text-orange">Welcome to the Quiz World!</h1>
+        <p class="lead">Test your knowledge and challenge yourself with exciting quizzes.</p>
+        <a href="{% url 'quiz_list' %}" class="btn btn-lg btn-outline-orange">Explore Quizzes</a>
+    </div>
+</section>
+
+<h2 class="text-center mb-4 text-orange">Available Quizzes</h2>
+<div class="row">
+  {% for quiz in quizzes %}
+  <div class="col-md-4 d-flex align-items-stretch">
+    <div class="card shadow-lg bg-light text-dark mb-5" style="width: 22rem; min-height: 26rem; border: 1px solid #ddd; border-radius: 10px;">
+      {% if quiz.image %}
+      <img src="{{ quiz.image.url }}" class="card-img-top" alt="{{ quiz.title }}" style="height: 12rem; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+      {% else %}
+      <img src="{% static 'images/default_quiz_image.jpg' %}" class="card-img-top" alt="Default Image" style="height: 12rem; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+      {% endif %}
+
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title text-orange">{{ quiz.title }}</h5> 
+        <p class="card-text flex-grow-1">{{ quiz.description|truncatechars:100 }}</p>
+
+        <a href="{% url 'attempt_quiz' quiz.id %}" class="btn btn-outline-orange mt-auto">Start Quiz</a> 
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

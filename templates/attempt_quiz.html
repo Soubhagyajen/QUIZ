@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="attempt-quiz-section container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center mb-4">{{ quiz.title }}</h1>
+      <p class="text-center">{{ quiz.description }}</p>
+
+      {% if score is not None %}
+        <div class="alert alert-success text-center" role="alert">
+          <h4>Your Results</h4>
+          <p><strong>Score:</strong> {{ score }} / {{ total_questions }}</p>
+          <p><strong>Correct Answers:</strong> {{ correct_answers }}</p>
+          <p><strong>Wrong Answers:</strong> {{ wrong_answers }}</p>
+          <a href="{% url 'quiz_list' %}" class="btn btn-primary mt-3">Back to Quiz List</a>
+        </div>
+      {% else %}
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="card shadow-sm">
+            <div class="card-body">
+              {% for question in questions %}
+                <div class="mb-4">
+                  <h5>{{ question.text }}</h5>
+
+                  <div class="form-group">
+                    {% for option in question.options.all %}
+                      <div class="form-check">
+                        <input
+                          type="radio"
+                          name="question_{{ question.id }}"
+                          value="{{ option.id }}"
+                          id="option_{{ option.id }}"
+                          class="form-check-input"
+                        >
+                        <label class="form-check-label" for="option_{{ option.id }}">{{ option.text }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1 class="display-4">Quiz Results</h1>
+    <p class="lead">You completed the quiz!</p>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2>Your Score: <span class="text-success">{{ score }}</span></h2>
+            <p>Total Questions: {{ total_questions }}</p>
+            <p class="text-success">Correct Answers: {{ correct_count }}</p>
+            <p class="text-danger">Wrong Answers: {{ wrong_count }}</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'quiz_list' %}" class="btn btn-primary">Back to Quiz List</a>
+    </div>
+</div>
+{% endblock %}

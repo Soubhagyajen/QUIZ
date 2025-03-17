@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center mb-4">Dashboard</h1>
+
+<div class="container">
+    <h2>Welcome, {{ request.user.username }}</h2>
+    <p class="text-muted">Here is your quiz history and scores:</p>
+
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Quiz Title</th>
+                <th>Score</th>
+                <th>Correct Answers</th>
+                <th>Wrong Answers</th>
+                <th>Date Attempted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attempt in user_attempts %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ attempt.quiz.title }}</td>
+                <td>{{ attempt.score }}</td>
+                <td>{{ attempt.correct_answers }}</td>
+                <td>{{ attempt.wrong_answers }}</td>
+                <td>{{ attempt.timestamp|date:"Y-m-d H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">You have not attempted any quizzes yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
